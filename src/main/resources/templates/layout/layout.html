@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<meta layout:fragment="cdn">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+<style type="text/css">
+<!--
+.menu_name {
+	background: aqua;
+	font-style: italic;
+	color: fuchsia;
+	border-style: solid;
+	margin: 100px;
+}
+-->
+</style>
+
+<section th:fragment="menu">
+	<a class="menu_name" th:href="@{/dc/list}">List</a> <a
+		class="menu_name" th:href="@{/dc/view?db_num=1}">Testing View</a> <a
+		class="menu_name" href="#">Graph</a> <a class="menu_name"
+		href="https://github.com/loganleee" target=".blank">GitHub</a> <a
+		class="menu_name"
+		href="https://www.facebook.com/profile.php?id=100005453672829" target=".blank">FaceBook</a>
+</section>
+
+<section layout:fragment="js">
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+		integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+		crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+		integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+		integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+		crossorigin="anonymous"></script>
+</section>
+</html>
