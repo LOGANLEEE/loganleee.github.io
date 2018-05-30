@@ -25,12 +25,12 @@
 	</properties>
 
 	<dependencies>
-	<!-- https://mvnrepository.com/artifact/org.webjars.npm/react -->
-<dependency>
-    <groupId>org.webjars.npm</groupId>
-    <artifactId>react</artifactId>
-    <version>16.3.2</version>
-</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars.npm/react -->
+		<dependency>
+			<groupId>org.webjars.npm</groupId>
+			<artifactId>react</artifactId>
+			<version>16.3.2</version>
+		</dependency>
 
 		<!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
 		<dependency>

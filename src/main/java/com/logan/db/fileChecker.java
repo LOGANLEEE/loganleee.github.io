@@ -1,14 +1,17 @@
 package com.logan.db;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
+import java.io.InputStreamReader;
 
 import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FSDataInputStream;
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.fs.permission.FsAction;
+import org.apache.hadoop.io.SetFile.Reader;
+import org.apache.hadoop.io.Text;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -71,7 +74,9 @@ public class fileChecker {
 		Path target = new Path("hdfs://localhost:9000/user/Logan/dc_in/out/part-r-00000");
 		Path des = new Path("/Users/Logan/dataexpo/mysql_export/result.txt");
 		local.copyToLocalFile(false, target, des, true);
-		
+
 	}
+
+
 
 }

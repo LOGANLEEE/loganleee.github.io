@@ -21,7 +21,7 @@ public class DcMapper extends Mapper<LongWritable, Text, Text, LongWritable> {
 		// word.set(itr.nextToken());
 		// context.write(word, one);
 		// }
-		
+
 		// Getting Rate of Content Existed Thread.
 		// if(parser.isContentExist()){
 
@@ -31,12 +31,12 @@ public class DcMapper extends Mapper<LongWritable, Text, Text, LongWritable> {
 		Long day_std = Long.parseLong(parser.getDay());
 		Long mon_std = Long.parseLong(parser.getMonth());
 		Long min_std = Long.parseLong(parser.getMinute());
-		
-		if(min_std > 0){
-			 word.set(parser.getMonth() +" Month : "+ parser.getDay() +" Day : "+ parser.getHour() +" Hour: "+parser.getMinute()+" Min: => ");
-			 context.write(word, one);
+			
+		if (min_std > 0) {
+			
+			word.set("0;;"+parser.getYear() +";;"+ parser.getMonth() + ";;"+parser.getDay() + ";;"+parser.getHour() +";;"+ parser.getMinute()+";;");
+			context.write(word, one);
 		}
-		
 
 	}
 }

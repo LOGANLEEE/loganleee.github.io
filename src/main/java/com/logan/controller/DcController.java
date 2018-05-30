@@ -3,8 +3,14 @@ package com.logan.controller;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.inject.Inject;
@@ -16,9 +22,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
@@ -28,8 +36,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.logan.db.fileChecker;
 import com.logan.domain.Dc_base;
+import com.logan.domain.MR_result;
 import com.logan.hadoop.DcJob;
 import com.logan.persistence.DcbaseRepository;
+import com.logan.persistence.MR_resultRepository;
 
 import lombok.extern.java.Log;
 
@@ -39,17 +49,20 @@ import lombok.extern.java.Log;
 public class DcController {
 	@Inject
 	DcbaseRepository repo;
+	@Inject
+	MR_resultRepository mrepo;
+
+	@GetMapping("/result_table")
+	public void result_table(MR_result mr, Model model) {
+		List<MR_result> result = mrepo.findAll();
+		model.addAttribute("result", result);
+
+	}
 
 	@GetMapping("/chart")
-	public void chart(){
-		
-	}
-	
-	@GetMapping("/hdfs")
-	public String hdfs() throws IOException {
-		fileChecker loader = new fileChecker();
-		loader.TransferLocaltoHdfs();
-		return "redirect:/dc/list";
+	public void chart(Model model) {
+		List<MR_result> result = mrepo.findAll();
+		model.addAttribute("chart_result", result);
 	}
 
 	@GetMapping("/export")
@@ -63,6 +76,9 @@ public class DcController {
 			System.out.println("Please check your method again");
 		}
 		System.out.println("export has processed.");
+		fileChecker loader = new fileChecker();
+		loader.TransferLocaltoHdfs();
+		System.out.println("Loader Done.");
 		return "redirect:/dc/list";
 	}
 
@@ -92,7 +108,7 @@ public class DcController {
 		//////////////
 		int page = DcGetPid();
 		// limit도 웝상에서 유저가 원하는 만큼 가져올수있게 해주고싶음.
-		int limit = 100000;
+		int limit = 10;
 		Dc_content(page, limit);
 		/////////////////
 		return "redirect:/dc/list";
@@ -100,8 +116,7 @@ public class DcController {
 
 	@GetMapping("/test")
 	public String test() throws IOException {
-//		fileChecker fc = new fileChecker();
-//		fc.hdfsToLocal();
+
 		return "redirect:/dc/list";
 	}
 
@@ -109,9 +124,17 @@ public class DcController {
 	public String hadoop() throws Exception {
 		DcJob job = new DcJob();
 		job.op();
+		System.out.println("MR Done.");
 		fileChecker fc = new fileChecker();
 		fc.hdfsToLocal();
-		System.out.println("Hadoop called");
+		System.out.println("hdfsToLocal Done");
+		try {
+			mrepo.ImportLocalFromDB();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		System.out.println("ImportLocalFromDB Done");
 		return "redirect:/dc/list";
 	}
 
