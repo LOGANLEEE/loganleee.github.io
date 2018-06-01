@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+<title>chart Page</title>
+</head>
+<body>
+<canvas id="mixed-chart" width="800" height="450"></canvas>
+	<script type="text/javascript" th:inline="javascript">
+			
+		new Chart(document.getElementById("mixed-chart"), {
+			type : 'bar',
+			data : {
+				labels :  [[${day}]]	,
+				datasets : [ {
+					label : "RESULT",
+					type : "line",
+					borderColor : "#8e5ea2",
+					data :  [[${result}]] ,
+					fill : true
+				}
+				]
+			},
+			options : {
+				title : {
+					display : true,
+					text : 'How Many Posts has posted per Day'
+				},
+				legend : {
+					display : false
+				}
+			}
+		});
+	</script>
+	<p align="center"> x축은 날짜(Day)를 의미합니다.
+</body>
+</html>

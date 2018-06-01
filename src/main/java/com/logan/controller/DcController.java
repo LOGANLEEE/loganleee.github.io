@@ -52,17 +52,49 @@ public class DcController {
 	@Inject
 	MR_resultRepository mrepo;
 
-	@GetMapping("/result_table")
-	public void result_table(MR_result mr, Model model) {
-		List<MR_result> result = mrepo.findAll();
-		model.addAttribute("result", result);
+	@GetMapping("/hour_result_chart")
+	public void hour_result_chart(Model model) {
+		List<Object[]> datas = mrepo.AnalByHours();
+		List<Object> receiver_hour = new ArrayList<>();
+		List<Object> receiver_result = new ArrayList<>();
+		List<Object> temp = new ArrayList<>();
+		for (Object[] d : datas) {
+			temp = Arrays.asList(d);
+			receiver_hour.add(temp.get(0));
+			receiver_result.add(temp.get(1));
+		}
+		model.addAttribute("data_hour",receiver_hour);
+		model.addAttribute("data_result",receiver_result);
 
 	}
 
-	@GetMapping("/chart")
-	public void chart(Model model) {
-		List<MR_result> result = mrepo.findAll();
-		model.addAttribute("chart_result", result);
+	@GetMapping("/min_result_chart")
+	public void min_result_chart( Model model) {
+		List<MR_result> list_result = mrepo.findAll();
+		List<Object> minute = new ArrayList<>();
+		List<Object> result = new ArrayList<>();
+		for(MR_result list : list_result){
+			minute.add(list.getEMinute());
+			result.add(list.getFResult()	);
+		}
+		model.addAttribute("minute",minute);
+		model.addAttribute("result",result);
+	}
+
+	@GetMapping("/day_result_chart")
+	public void day_result_chart(Model model) {
+		List<Object[]> result_list= mrepo.SumResultPerDay();
+		List<Object> day = new ArrayList<>();
+		List<Object> result = new ArrayList<>();
+		List<Object> temp = new ArrayList<>();
+		for (Object[] r : result_list) {
+			temp = Arrays.asList(r);
+			day.add(temp.get(0));
+			result.add(temp.get(1));
+		}
+		model.addAttribute("day",day);
+		model.addAttribute("result",result);
+
 	}
 
 	@GetMapping("/export")
@@ -129,6 +161,7 @@ public class DcController {
 		fc.hdfsToLocal();
 		System.out.println("hdfsToLocal Done");
 		try {
+			mrepo.deleteAll();
 			mrepo.ImportLocalFromDB();
 
 		} catch (Exception e) {

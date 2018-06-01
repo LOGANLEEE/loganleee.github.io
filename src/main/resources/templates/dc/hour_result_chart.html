@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout/layout}">
+<head>
+</head>
+<body>
+	<canvas id="mixed-chart" width="800" height="450"></canvas>
+	<div>
+		<form class="hour_class" hidden="true" th:each="hour:${data_hour}">
+		</form>
+		<form hidden="true" th:each="result:${data_result}"></form>
+	</div>
+	<script type="text/javascript" th:inline="javascript">
+			
+		new Chart(document.getElementById("mixed-chart"), {
+			type : 'bar',
+			data : {
+				labels :  [[${data_hour}]]	,
+				datasets : [ {
+					label : "Post",
+					type : "line",
+					borderColor : "#8e5ea2",
+					data :  [[${data_result}]] ,
+					fill : true
+				}
+				]
+			},
+			options : {
+				title : {
+					display : true,
+					text : 'How Many Posts has posted per Hour'
+				},
+				legend : {
+					display : false
+				}
+			}
+		});
+	</script>
+	<p align="center">x축은 0~24시간을 의미하며, 각 축의 값들은 포스트의 수를 의미합니다.
+	<p align="center">  23시에 포스트 갯수가 급증한걸로 보아 주활동 시간대를 파악할 수 있습니다.
+</body>
+</html>

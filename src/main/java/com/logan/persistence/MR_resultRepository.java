@@ -14,6 +14,9 @@ public interface MR_resultRepository extends JpaRepository<MR_result, Long>, Que
 	@Query(value ="LOAD DATA INFILE '/Users/Logan/dataexpo/mysql_export/result.txt' INTO TABLE result FIELDS TERMINATED BY ';;' LINES TERMINATED BY '\n'",nativeQuery=true)
 	public Object ImportLocalFromDB();
 	
-	@Query(value="SELECT * FROM result",nativeQuery=true)
-	public List<Object[]> result();
+	@Query(value="select hour,sum(result) from result group by hour;",nativeQuery=true)
+	public List<Object[]> AnalByHours();
+	
+	@Query(value="SELECT day,count(result) FROM result GROUP BY day",nativeQuery=true)
+	public List<Object[]> SumResultPerDay();
 }
