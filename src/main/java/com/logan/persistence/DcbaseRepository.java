@@ -17,7 +17,7 @@ public interface DcbaseRepository extends JpaRepository<Dc_base, Long>, Querydsl
 	// @Query(value ="SELECT * FROM dc_base INTO OUTFILE
 	// '/Users/Logan/dataexpo/mysql_export/dc_base.csv' FIELDS TERMINATED BY ','
 	// LINES TERMINATED BY '\n'", nativeQuery=true)
-	@Query(value ="SELECT d.dbno, d.content,d.ip_address,d.reg_date,d.title,d.tno,d.user FROM	dc_base d INTO OUTFILE'/Users/Logan/dataexpo/mysql_export/dc_base.csv' FIELDS TERMINATED BY'££' LINES TERMINATED BY'\n'",nativeQuery=true)
+	@Query(value ="SELECT d.dbno, d.content,d.ip_address,d.reg_date,d.title,d.tno,d.user FROM dc_base d INTO OUTFILE'/Users/Logan/dataexpo/mysql_export/dc_base.csv' FIELDS TERMINATED BY'££' LINES TERMINATED BY'\n'",nativeQuery=true)
 			public Object ExportDataToCsv();
 
 }

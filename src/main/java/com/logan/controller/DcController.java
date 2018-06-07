@@ -140,7 +140,7 @@ public class DcController {
 		//////////////
 		int page = DcGetPid();
 		// limit도 웝상에서 유저가 원하는 만큼 가져올수있게 해주고싶음.
-		int limit = 10;
+		int limit = 100000;
 		Dc_content(page, limit);
 		/////////////////
 		return "redirect:/dc/list";
