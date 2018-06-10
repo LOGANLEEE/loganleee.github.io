@@ -15,8 +15,11 @@ public interface MR_resultRepository extends JpaRepository<MR_result, Long>, Que
 	public Object ImportLocalFromDB();
 	
 	@Query(value="select hour,sum(result) from result group by hour;",nativeQuery=true)
-	public List<Object[]> AnalByHours();
+	public List<Object[]> SumResultPerHours();
 	
-	@Query(value="SELECT day,count(result) FROM result GROUP BY day",nativeQuery=true)
+	@Query(value="SELECT day,sum(result) FROM result GROUP BY day",nativeQuery=true)
 	public List<Object[]> SumResultPerDay();
+	
+	@Query(value="SELECT minute,sum(result) FROM result GROUP by minute",nativeQuery=true)
+	public List<Object[]> SumResultPerMinute();
 }

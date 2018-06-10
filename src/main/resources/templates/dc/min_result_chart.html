@@ -8,8 +8,8 @@
 </head>
 
 <body>
-<p align="center"> 분 단위로 쪼개 몇개의 게시글이 등록되었는지를 보여줍니다.
-	<canvas id="mixed-chart" width="1800" height="1450"></canvas>
+<p align="center"> 게시물의 작성날짜를 기반으로 분(Minute)단위로 구분하여 해당 분에 몇개의 게시물이 업로드되었는지를 보여줍니다.
+	<canvas id="mixed-chart" width="1000" height="500"></canvas>
 	<script type="text/javascript" th:inline="javascript">
 			
 		new Chart(document.getElementById("mixed-chart"), {
@@ -17,9 +17,17 @@
 			data : {
 				labels :   [[${minute}]] 	,
 				datasets : [ {
-					label : "Minute",
+					label : "Post",
 					type : "line",
-					borderColor : "rgb(255, 0, 255)",
+					borderColor : "#6a4be8",
+					data :  [[${result}]] ,
+					fill : false
+				},
+				{
+					label : "Post",
+					type : "bar",
+					borderColor : "rgb(200,200,200)",
+					backgroundColor: "rgb(200,200,200)",
 					data :  [[${result}]] ,
 					fill : true
 				}
@@ -36,7 +44,7 @@
 			}
 		});
 	</script>
-	<p align="center"> x축 컬럼의 갯수가 방대해 label이 겹쳐지는 점 양해부탁드립니다 .*
+	<p align="center">그래프가 고르게 분포되어있을거다라는 생각과는 다르게 44분에 업로드된 포스트의 수가 가장 많고 그래프 자체가 상당히 불규칙합니다.
 </body>
 
 </html>

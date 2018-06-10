@@ -154,3 +154,5 @@ model에 등록한 List를 그대로 가져오면 비벼볼만은 한거같다�
 my.cnf를 수정하든 /usr/local/Cellar/에서 home** 을 지지고볶든 안되네.secure_file_priv 값이 널임에도 불구하고. 그말인즉슨...my.cnf보다는 다른 곳에 영향을 받고있다느건데.
 이번에는 work bench에서 options를 만져 수정했다. null값으로 두는것도 비추한다.
 왠만하면 지정해주는것이 좋을것같다.
+
+일단 crawl할떄 몇페이지만 할껀지 파라미터 전달받는것만하고 project-Description이랑 이력서랑 정리하자.

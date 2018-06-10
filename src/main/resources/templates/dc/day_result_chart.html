@@ -6,17 +6,26 @@
 <title>chart Page</title>
 </head>
 <body>
-<canvas id="mixed-chart" width="800" height="450"></canvas>
+<p align="center"> 게시물의 작성날짜를 기반으로 일(Day)단위로 구분하여 해당 일에 몇개의 게시물이 업로드되었는지를 보여줍니다.
+<canvas id="mixed-chart" width="1000" height="500"></canvas>
 	<script type="text/javascript" th:inline="javascript">
 			
 		new Chart(document.getElementById("mixed-chart"), {
 			type : 'bar',
-			data : {
+			data : { 
 				labels :  [[${day}]]	,
 				datasets : [ {
-					label : "RESULT",
+					label : "Post",
 					type : "line",
-					borderColor : "#8e5ea2",
+					borderColor : "#6a4be8",
+					data :  [[${result}]] ,
+					fill : false
+				},
+				{
+					label : "Post",
+					type : "bar",
+					borderColor : "rgb(200,200,200)",
+					backgroundColor: "rgb(200,200,200)",
 					data :  [[${result}]] ,
 					fill : true
 				}
@@ -33,6 +42,6 @@
 			}
 		});
 	</script>
-	<p align="center"> x축은 날짜(Day)를 의미합니다.
+	<p align="center"> x축은 날짜(Day)를 의미합니다.(날마다 크롤링한 데이터의 수가 다르기 때문에 정확한 양은 파악하기 어렵습니다.)
 </body>
 </html>

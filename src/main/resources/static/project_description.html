@@ -1,9 +1,68 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>project_decription</title>
 </head>
+<style>
+.name {
+	font-weight: bold;
+	font-size: 20px;
+	font-style: oblique;
+}
+
+.content {
+	padding: 9px;
+}
+</style>
 <body>
+	<div class="dev_spec" align="left">
+		<p>
+			<b>Developement Spec</b>
+		</p>
+		<hr>
+		<table>
+			<tr>
+				<td class="name">OS</td>
+				<td class="content"><b>Mac OS (Macbook)</b>, Linux(Ubuntu16.14)</td>
+			</tr>
+			<tr>
+				<td class="name">Language</td>
+				<td class="content"><b>JAVA(1.8)</b>, JS</td>
+			</tr>
+			<tr>
+				<td class="name">DB</td>
+				<td class="content"><b>MYSQL</b> (5.7.22)</td>
+			</tr>
+			<tr>
+				<td class="name">Skills</td>
+				<td class="content">SpringBoot(2.0.0), Hadoop(2.7.0),
+					Thymeleaf(3), Jsoup(1.11.2), JPA(Hibernate), Lombok(1.6), Chart.js</td>
+			</tr>
+			<tr>
+				<td class="name">ETC</td>
+				<td class="content">Maven, Safari, Vim, Brew, Junit(4.12),
+					Querydsl(4.1.4)</td>
+			</tr>
+		</table>
+		<hr>
+	</div>
+	<div class="mechanism_summary" align="left">
+		<p>
+			<b>Summary</b>
+		</p>
+		<ul>
+			<li>웹사이트에서 필요 정보를 크롤링하고자하는 만큼 사용자가 설정한 후  DB에 적재합니다.</li>
+			<li>해당 데이터를 CSV포맷으로 추출하여 HDFS에 업로드한후 가공과정을 거쳐 사용자가 다룰수있는 테이블에
+				가공된 데이터를 적재합니다.</li>
+			<li>가공된 데이터를 기반으로하여 특정 단위(분,시,일)로 구분하여 업로드된 포스트 갯수를 도출합니다.</li>
+			<li>도출된 데이터로 사용자가 쉽게 이해할 수 있게끔 시각화하여 보여줍니다.</li>
+		</ul>
+	</div>
+	<hr>
+	<div class="mechanism_detail">
 	
+	</div>
+
 </body>
 </html>

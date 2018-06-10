@@ -18,6 +18,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
+import org.hibernate.annotations.Parameter;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -33,11 +34,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.logan.db.fileChecker;
 import com.logan.domain.Dc_base;
 import com.logan.domain.MR_result;
 import com.logan.hadoop.DcJob;
+import com.logan.hadoop.DcJob_Word;
 import com.logan.persistence.DcbaseRepository;
 import com.logan.persistence.MR_resultRepository;
 
@@ -54,11 +57,11 @@ public class DcController {
 
 	@GetMapping("/hour_result_chart")
 	public void hour_result_chart(Model model) {
-		List<Object[]> datas = mrepo.AnalByHours();
+		List<Object[]> result_list = mrepo.SumResultPerHours();
 		List<Object> receiver_hour = new ArrayList<>();
 		List<Object> receiver_result = new ArrayList<>();
 		List<Object> temp = new ArrayList<>();
-		for (Object[] d : datas) {
+		for (Object[] d : result_list) {
 			temp = Arrays.asList(d);
 			receiver_hour.add(temp.get(0));
 			receiver_result.add(temp.get(1));
@@ -70,30 +73,32 @@ public class DcController {
 
 	@GetMapping("/min_result_chart")
 	public void min_result_chart( Model model) {
-		List<MR_result> list_result = mrepo.findAll();
-		List<Object> minute = new ArrayList<>();
-		List<Object> result = new ArrayList<>();
-		for(MR_result list : list_result){
-			minute.add(list.getEMinute());
-			result.add(list.getFResult()	);
+		List<Object[]> result_list = mrepo.SumResultPerMinute();
+		List<Object> receiver_minute = new ArrayList<>();
+		List<Object> receiver_result = new ArrayList<>();
+		List<Object> temp = new ArrayList<>();
+		for(Object[] r : result_list){
+			temp = Arrays.asList(r);
+			receiver_minute.add(temp.get(0));
+			receiver_result.add(temp.get(1));
 		}
-		model.addAttribute("minute",minute);
-		model.addAttribute("result",result);
+		model.addAttribute("minute",receiver_minute);
+		model.addAttribute("result",receiver_result);
 	}
 
 	@GetMapping("/day_result_chart")
 	public void day_result_chart(Model model) {
 		List<Object[]> result_list= mrepo.SumResultPerDay();
-		List<Object> day = new ArrayList<>();
-		List<Object> result = new ArrayList<>();
+		List<Object> receiver_day = new ArrayList<>();
+		List<Object> receiver_result = new ArrayList<>();
 		List<Object> temp = new ArrayList<>();
 		for (Object[] r : result_list) {
 			temp = Arrays.asList(r);
-			day.add(temp.get(0));
-			result.add(temp.get(1));
+			receiver_day.add(temp.get(0));
+			receiver_result.add(temp.get(1));
 		}
-		model.addAttribute("day",day);
-		model.addAttribute("result",result);
+		model.addAttribute("day",receiver_day);
+		model.addAttribute("result",receiver_result);
 
 	}
 
@@ -123,31 +128,26 @@ public class DcController {
 
 	@GetMapping("/list")
 	public void list(Dc_base dc, Model model,
-			@PageableDefault(sort = "dbno", page = 0, direction = Direction.DESC, size = 20) Pageable page) {
+			@PageableDefault(sort = "dbno", page = 0, direction = Direction.DESC, size = 40) Pageable page) {
 
 		Page<Dc_base> result = repo.findAll(page);
 		model.addAttribute("result", result);
 	}
 
 	@GetMapping("/crawl")
-	public String crawl() throws IOException {
+	public String crawl(Long count,Model model) throws IOException {
 		System.out.println("List has called...");
-		//////////////
-		// DcCrawl dc = new DcCrawl();
-		// int page = dc.DcGetPid();
-		// int limit = 20;
-		// dc.Dc_content(page, limit);
-		//////////////
 		int page = DcGetPid();
-		// limit도 웝상에서 유저가 원하는 만큼 가져올수있게 해주고싶음.
-		int limit = 100000;
+		Long limit = count;
 		Dc_content(page, limit);
 		/////////////////
 		return "redirect:/dc/list";
 	}
 
-	@GetMapping("/test")
-	public String test() throws IOException {
+	@GetMapping("/word")
+	public String word() throws Exception {
+		DcJob_Word word = new DcJob_Word();
+		word.op();
 
 		return "redirect:/dc/list";
 	}
@@ -173,8 +173,8 @@ public class DcController {
 
 	////////////////
 
-	public void Dc_content(int title_no, int count) throws IOException {
-		int checker = title_no - count;
+	public void Dc_content(int title_no, Long limit) throws IOException {
+		Long checker = title_no - limit;
 		while (title_no > checker) {
 			try {
 				Dc_base dc = new Dc_base();
