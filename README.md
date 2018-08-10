@@ -1,2 +1,1 @@
-Used Language : Java , SQL, HTML, CSS , JS
-Develo
+JAVA + SRPING BOOT + CHART.JS + HADOOP + JPA + MYSQL + HTML + CSS + JSOUP
